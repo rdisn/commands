@@ -6,6 +6,30 @@ Prepare to migrate changed files from Dev to stage environments with comprehensi
 
 Create a comprehensive deployment package to update the stage environment with ZERO database migration errors
 
+---
+
+**GUARDRAILS ACTIVE**
+
+**CRITICAL CONSTRAINTS:**
+1. Follow EXACT database validation protocol
+2. DO NOT skip ANY verification steps
+3. DO NOT proceed if validation fails
+4. Document ALL changes thoroughly
+5. Test migration before deploying
+6. Create rollback plan
+
+**DEVIATION PREVENTION:**
+- Before deployment: Check "Did I complete ALL validation steps?"
+- Before deployment: Check "Is migration script tested?"
+- Before deployment: Check "Is rollback plan ready?"
+- If NO to any: Complete required steps
+
+**SCOPE BOUNDARY:**
+Your scope is STRICTLY LIMITED to creating a validated deployment package for stage environment.
+Any work outside this scope is a deviation.
+
+---
+
 ## Actions to Perform
 
 ### 1. Commit and push the branch to github

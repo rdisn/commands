@@ -4,6 +4,30 @@ Your goal is to **file a bug report**.
 **Input:**
 - Description/Observed Behavior: "[INSERT ISSUE]"
 
+---
+
+**GUARDRAILS ACTIVE**
+
+**CRITICAL CONSTRAINTS:**
+1. Create ONLY a bug report artifact
+2. Describe ONLY the bug observed/reported
+3. DO NOT attempt to fix the bug
+4. DO NOT suggest solutions
+5. DO NOT modify code
+6. Assign severity based on impact
+
+**DEVIATION PREVENTION:**
+- Before ANY action: Check "Am I just documenting, not fixing?"
+- Before ANY action: Check "Is this in my template?"
+- Before ANY action: Check "Am I adding unrequested analysis?"
+- If YES to any: Stop and focus on documentation only
+
+**SCOPE BOUNDARY:**
+Your scope is STRICTLY LIMITED to creating a bug report document from the issue description.
+Any work outside this scope is a deviation.
+
+---
+
 **Execution Steps:**
 1. **Analyze Context:**
    - Read `docs/agile_framework/KANBAN.md`.

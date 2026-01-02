@@ -3,6 +3,30 @@
 **Use Case:** You have a feature request and want to create a formal `US-XXX` artifact.
 **Goal:** Create a new markdown file in `docs/agile_framework/05_user_stories/` and update the Kanban board.
 
+---
+
+**GUARDRAILS ACTIVE**
+
+**CRITICAL CONSTRAINTS:**
+1. Read ONLY the files specified in your prompt
+2. Follow the EXACT steps in your assigned order
+3. DO NOT add "helpful" features beyond scope
+4. DO NOT make architectural decisions
+5. DO NOT skip verification steps
+6. If instructions unclear - STOP and ASK
+
+**DEVIATION PREVENTION:**
+- Before ANY file write: Check "Is this in my template?"
+- Before ANY architectural decision: Check "Did the user request this?"
+- Before skipping a step: Check "Is step truly unnecessary?"
+- If YES to any: Re-read template, then proceed
+
+**SCOPE BOUNDARY:**
+Your scope is STRICTLY LIMITED to creating a User Story artifact from the feature request provided.
+Any work outside this scope is a deviation.
+
+---
+
 ### The System Prompt
 
 ```text
