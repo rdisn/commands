@@ -513,6 +513,86 @@ Any work outside this scope is a deviation.
 
 ---
 
+## 🧠 Learning & Knowledge System (NEW)
+
+The framework now includes **continuous learning** capabilities to improve code generation over time.
+
+### Knowledge Base Components
+
+| Component | Purpose | Location |
+|-----------|---------|----------|
+| **PATTERN_LIBRARY.md** | Approved solutions that work | Reference before coding |
+| **COMMON_PITFALLS.md** | Documented errors with fixes | 24+ known issues |
+| **capture-lesson.sh** | Auto-extract lessons from validation | Automation script |
+
+### How Learning Works
+
+```
+Validation Report (VAL-XXX)
+    ↓
+Identifies: Success patterns + Issues found
+    ↓
+capture-lesson.sh script extracts lessons
+    ↓
+Updates: PATTERN_LIBRARY.md + COMMON_PITFALLS.md
+    ↓
+Future code generation uses these patterns
+```
+
+### Using the Learning System
+
+**Before Coding:**
+```bash
+# Check if your problem has a known solution
+grep "keyword" docs/agile_framework/PATTERN_LIBRARY.md
+
+# Check for known pitfalls
+grep "keyword" docs/agile_framework/06_standards/COMMON_PITFALLS.md
+```
+
+**After Validation:**
+```bash
+# Auto-capture lessons from validation report
+bash scripts/capture-lesson.sh VAL-XXX
+
+# This will:
+# - Extract success patterns → PATTERN_LIBRARY.md
+# - Extract new issues → COMMON_PITFALLS.md
+# - Generate templates for manual review
+```
+
+**Example: Learning Loop**
+```
+1. Validator finds a good pattern in VAL-020
+2. capture-lesson.sh extracts it
+3. Pattern added to PATTERN_LIBRARY.md
+4. Tech Lead references it in IMPL-025
+5. Developer uses proven pattern
+6. Same pattern validated again in VAL-025
+7. Pattern becomes standard practice
+```
+
+### Contributing to Learning
+
+**When you find a working solution:**
+1. Document it in `PATTERN_LIBRARY.md`
+2. Include: When to use, The pattern, Why it works
+3. Cross-reference to related pitfalls
+
+**When you encounter a new issue:**
+1. Document it in `COMMON_PITFALLS.md`
+2. Include: Error, Fix, Prevention
+3. Add to code review checklist
+
+**Automation:**
+- Validation reports now have "Learning & Improvement" section
+- `capture-lesson.sh` auto-extracts lessons
+- Patterns become part of future prompts
+
+**Result:** Every feature makes future features better.
+
+---
+
 ## ❓ FAQ (Updated)
 
 ### Q: What happened to Plan Review and Code Review?
