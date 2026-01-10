@@ -122,6 +122,7 @@ Follow the protocol in `docs/agile_framework/01_agile_framework/CONTEXT_PROTOCOL
 - Code Reviewer (Triage) → `00_templates/TRIAGE_CHECKLIST_TEMPLATE.md` 🆕
 - Developer → No template, follow implementation plans exactly
 - Validator (CR+QA) → `00_templates/VALIDATION_REPORT_TEMPLATE.md` 🆕
+- Manual Tester → `00_templates/USER_ACCEPTANCE_REPORT_TEMPLATE.md` 🆕
 
 ### Step 5: Understand the Optimized Workflow
 ```
@@ -135,6 +136,11 @@ Implementation Pool (DEVs work in parallel slots) 🆕
     ↓
 Validation Queue (Validator does CR+QA combined) 🆕
     ↓
+Manual Acceptance Queue (Human tests feature) 🆕🆕
+    ↓
+    ├─ PASS → Done (Deployed)
+    │
+    └─ FAIL → Feedback Loop → Back to Implementation
 Done (Deployed)
 ```
 
@@ -144,7 +150,8 @@ Done (Deployed)
 - ❌ Removed: Separate "QA Testing" gate
 - ✅ Added: "Triage" gate (quick validation)
 - ✅ Added: "Validation" gate (combined CR+QA)
-- ✅ Result: 9 steps → 5 steps (44% reduction, same quality)
+- ✅ Added: "Manual Acceptance" gate (human testing + feedback loop) 🆕
+- ✅ Result: 9 steps → 6 steps with critical human verification gate
 
 ---
 
@@ -277,6 +284,23 @@ Later, another agent can resume by typing /continue-agile
 - Use `auto-test-plan.sh` script to generate test plans
 - Focus on exploratory testing and edge cases
 
+### 6. Manual Tester (Human) 🆕
+**Responsibilities:**
+- Perform manual exploratory testing after automated validation passes
+- Test real-world usage scenarios
+- Verify UI/UX quality
+- Complete User Acceptance Report (UAR-XXX)
+- Make accept/reject decision
+
+**Decision Authority:**
+- **ACCEPTED** → Feature moves to Done
+- **REJECTED** → Feature returns to Implementation Pool with [Rejected] status
+- **ACCEPTED WITH CONDITIONS** → Create bugs for minor issues, proceed to Done
+
+**Feedback Loop:**
+- If rejected, developer fixes issues and resubmits to Validation Queue
+- After 3 failed attempts, escalate to Tech Lead for plan revision
+
 ---
 
 ## 📋 Document Numbering System (Updated)
@@ -286,6 +310,7 @@ Later, another agent can resume by typing /continue-agile
 - `IMPL-XXX` - Implementation Plans
 - `TR-XXX` - 🆕 Triage Reports (replaces CR-XXX-PLAN)
 - `VAL-XXX` - 🆕 Validation Reports (replaces CR-XXX + TEST-XXX)
+- `UAR-XXX` - 🆕 User Acceptance Reports (manual human testing)
 - `BUG-XXX` - Bug Reports
 - `HO-XXX` - 🆕 Handover files (pause/resume state)
 
@@ -352,17 +377,43 @@ Later, another agent can resume by typing /continue-agile
    - Manual testing
    - Bug discovery
 
-   Combined Decision: APPROVED for Done / NEEDS FIXES
+   Combined Decision: APPROVED for Manual Acceptance / NEEDS FIXES
    ```
 
-7. **Deploy to production**
+7. **Human Tester performs Manual Acceptance** 🆕🆕
    ```
-   If approved: Deploy and mark as Done in KANBAN.md
+   Creates: docs/agile_framework/04_testing/user_acceptance_reports/UAR-XXX_admin_bug_filtering.md
+   Uses: USER_ACCEPTANCE_REPORT_TEMPLATE.md
+
+   Manual Testing (30-60 min):
+   - Real-world usage scenarios
+   - UI/UX assessment
+   - Edge cases and exploratory testing
+   - Responsive design verification
+   - Dark mode testing
+   - Accessibility check
+   - Security verification
+
+   Decision: ACCEPTED / REJECTED / ACCEPTED WITH CONDITIONS
    ```
 
-**Time Savings:**
-- Old workflow: ~6 hours total
-- New workflow: ~3 hours total (50% faster)
+8. **Deploy to production (if accepted)**
+   ```
+   If ACCEPTED or ACCEPTED WITH CONDITIONS:
+   - Deploy and mark as Done in KANBAN.md
+
+   If REJECTED:
+   - Move back to Implementation Pool with [Rejected] status
+   - Developer fixes issues
+   - Resubmit to Validation Queue
+   - Re-test after fixes
+   - After 3 failures: Escalate to Tech Lead for plan revision
+   ```
+
+**Feedback Loop Protection:**
+- Automatic tracking of test cycles
+- Escalation after 3 failed attempts prevents infinite loops
+- Manual testing catches issues automated validation misses
 
 ---
 
@@ -386,7 +437,8 @@ Code must comply 100% or WILL BE REJECTED.
 ### Rule 4: Quality Gates (Consolidated)
 - **Triage:** Quick plan validation (5-10 min)
 - **Validation:** Combined code review + testing (25-35 min)
-- **No gate removed, just consolidated**
+- **Manual Acceptance:** Human testing with feedback loop (30-60 min) 🆕
+- **No gate removed, just consolidated, manual testing added**
 
 ### Rule 5: Use Automation Scripts 🆕
 - `auto-triage.sh` - Validate plans in 5 min
@@ -472,17 +524,19 @@ Parallelization infrastructure is in place but working sequentially for safety.
 ## 📊 Success Metrics (Updated)
 
 ### Velocity Improvements (v2.0)
-- **Time to Done:** 50-60% faster (2-3 days vs 5-7 days)
-- **Sequential steps:** 44% reduction (9 → 5 steps)
-- **Quality gates:** 25% reduction (4 → 3 gates)
-- **Artifacts per feature:** 40% reduction (5 → 3 artifacts)
+- **Time to Done:** 30-40% faster (3-4 days vs 5-7 days)
+- **Sequential steps:** 33% reduction (9 → 6 steps)
+- **Quality gates:** Enhanced with critical human testing gate (3 → 4 gates)
+- **Artifacts per feature:** 20% reduction (5 → 4 artifacts)
 - **LLM deviations:** 67% reduction (via guardrails)
+- **Manual testing loop:** Catches issues automation misses 🆕
 
-### Quality Metrics (Maintained)
-- Production bug rate: **UNCHANGED** (same checks, consolidated)
+### Quality Metrics (Enhanced)
+- Production bug rate: **IMPROVED** (manual testing catches more issues) 🆕
 - Code review rejection rate: **UNCHANGED**
 - Standards compliance: **100%** (still enforced)
 - Security vulnerabilities: **0 increase**
+- User satisfaction: **IMPROVED** (human UX verification) 🆕
 
 ---
 
@@ -515,85 +569,78 @@ Any work outside this scope is a deviation.
 
 ## 🧠 Learning & Knowledge System (NEW)
 
-The framework now includes **continuous learning** capabilities to improve code generation over time.
+The framework now includes **automatic continuous learning** - no manual steps required.
 
-### Knowledge Base Components
-
-| Component | Purpose | Location |
-|-----------|---------|----------|
-| **PATTERN_LIBRARY.md** | Approved solutions that work | Reference before coding |
-| **COMMON_PITFALLS.md** | Documented errors with fixes | 24+ known issues |
-| **capture-lesson.sh** | Auto-extract lessons from validation | Automation script |
-
-### How Learning Works
+### How Learning Works (AUTOMATIC)
 
 ```
-Validation Report (VAL-XXX)
+Tech Lead creates plan
     ↓
-Identifies: Success patterns + Issues found
+Checks PATTERN_LIBRARY.md for reusable patterns (automatic)
     ↓
-capture-lesson.sh script extracts lessons
+Developer implements using proven patterns
     ↓
-Updates: PATTERN_LIBRARY.md + COMMON_PITFALLS.md
+Validator reviews and identifies:
+    - Success patterns → adds to PATTERN_LIBRARY.md (automatic)
+    - New issues → adds to COMMON_PITFALLS.md (automatic)
     ↓
-Future code generation uses these patterns
+Future plans use these learnings (automatic)
 ```
 
-### Using the Learning System
+### What's Automatic
 
-**Before Coding:**
-```bash
-# Check if your problem has a known solution
-grep "keyword" docs/agile_framework/PATTERN_LIBRARY.md
+| Step | Who | What Happens Automatically |
+|------|-----|--------------------------|
+| **Planning** | Tech Lead | Reads PATTERN_LIBRARY.md for reusable patterns |
+| **Validation** | Validator | Extracts success patterns → PATTERN_LIBRARY.md |
+| **Validation** | Validator | Extracts new issues → COMMON_PITFALLS.md |
+| **Future Plans** | Tech Lead | Uses updated knowledge base |
 
-# Check for known pitfalls
-grep "keyword" docs/agile_framework/06_standards/COMMON_PITFALLS.md
+### Manual Tools (Optional)
+
+The `capture-lesson.sh` script is **optional** - used if you want to:
+- Batch-process multiple validation reports
+- Review what was captured before merging
+- Generate lesson summaries for retrospectives
+
+**Normal workflow:** Learning happens automatically during validation. No separate step needed.
+
+### Example: Automatic Learning Loop
+
+```
+1. VAL-020 validates a feature
+2. Validator automatically:
+   - Finds excellent AJAX pattern in code
+   - Adds pattern to PATTERN_LIBRARY.md
+   - Finds new CSS pitfall
+   - Adds to COMMON_PITFALLS.md
+3. IMPL-025 is created
+4. Tech Lead automatically reads PATTERN_LIBRARY.md
+5. Finds the proven AJAX pattern
+6. Includes it in implementation plan
+7. Developer uses proven pattern
+8. VAL-025 validates successfully
+9. Pattern reinforced as standard practice
 ```
 
-**After Validation:**
-```bash
-# Auto-capture lessons from validation report
-bash scripts/capture-lesson.sh VAL-XXX
-
-# This will:
-# - Extract success patterns → PATTERN_LIBRARY.md
-# - Extract new issues → COMMON_PITFALLS.md
-# - Generate templates for manual review
-```
-
-**Example: Learning Loop**
-```
-1. Validator finds a good pattern in VAL-020
-2. capture-lesson.sh extracts it
-3. Pattern added to PATTERN_LIBRARY.md
-4. Tech Lead references it in IMPL-025
-5. Developer uses proven pattern
-6. Same pattern validated again in VAL-025
-7. Pattern becomes standard practice
-```
-
-### Contributing to Learning
-
-**When you find a working solution:**
-1. Document it in `PATTERN_LIBRARY.md`
-2. Include: When to use, The pattern, Why it works
-3. Cross-reference to related pitfalls
-
-**When you encounter a new issue:**
-1. Document it in `COMMON_PITFALLS.md`
-2. Include: Error, Fix, Prevention
-3. Add to code review checklist
-
-**Automation:**
-- Validation reports now have "Learning & Improvement" section
-- `capture-lesson.sh` auto-extracts lessons
-- Patterns become part of future prompts
-
-**Result:** Every feature makes future features better.
+**Result:** Every feature makes future features better - automatically.
 
 ---
 
 ## ❓ FAQ (Updated)
+
+### Q: Do I need to manually run capture-lesson.sh?
+**A:** No! Learning happens automatically during validation:
+- Tech Lead automatically reads PATTERN_LIBRARY.md when creating plans
+- Validator automatically adds patterns to PATTERN_LIBRARY.md during validation
+- Validator automatically adds issues to COMMON_PITFALLS.md during validation
+- The `capture-lesson.sh` script is optional (for batch processing or review)
+
+### Q: How do I search for patterns before coding?
+**A:** You don't need to! The framework does it automatically:
+- Tech Lead checks PATTERN_LIBRARY.md when creating implementation plans
+- Proven patterns are included in the plan
+- Developer follows the plan (which already includes the best patterns)
 
 ### Q: What happened to Plan Review and Code Review?
 **A:** They were consolidated into "Triage" (quick validation) and "Validation" (combined CR+QA). No checks were removed, just streamlined.

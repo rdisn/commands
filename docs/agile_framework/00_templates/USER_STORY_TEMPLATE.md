@@ -74,6 +74,7 @@
 - [ ] Unit tests written and passing
 - [ ] Integration tests passing
 - [ ] QA testing completed (TEST-XXX)
+- [ ] **Manual acceptance testing passed (UAR-XXX)** 🆕
 - [ ] Documentation updated
 - [ ] Deployed to staging
 - [ ] Product Owner sign-off

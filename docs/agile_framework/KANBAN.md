@@ -77,6 +77,20 @@ This document serves as the **Single Source of Truth** for the current state of 
 
 ---
 
+## 👤 Manual Acceptance Queue (Ready for Human Testing)
+
+**IMPORTANT:** This is the CRITICAL human testing gate. Items CANNOT move to Done without passing this phase.
+
+**Slot 1:** [ ] (available)
+**Slot 2:** [ ] (available)
+**Slot 3:** [ ] (available)
+
+**Feedback Loop Status:**
+- Items that fail manual testing return to Implementation Pool with `[Rejected]` status
+- After 3 failed attempts, escalate to Tech Lead for plan revision
+
+---
+
 ## ✅ Done (Completed)
 
 ### Recently Completed (2025-12-12)
@@ -117,12 +131,14 @@ This document serves as the **Single Source of Truth** for the current state of 
 - **DEV**: Works on Implementation Pool (after Triage approval)
 - **CR (Triage)**: Reviews items in Triage Queue
 - **CR/QA (Validator)**: Reviews items in Validation Queue
+- **Human Tester**: Performs manual testing in Manual Acceptance Queue 🆕
 
 **Status format:**
 - `[ ]` - Available slot
 - `[Active:ID]` - Locked by specific agent (e.g., `[Active:DEV-001]`)
+- `[ManualTest:ID]` - Locked for human testing (e.g., `[ManualTest:HUMAN-01]`) 🆕
 - `[Paused]` - Stopped mid-task (resume from `docs/agile_framework/handovers/HO-[ID].md`)
-- `[Rejected]` - Plan or Code rejected (high priority for rework)
+- `[Rejected]` - Manual testing failed (return to Implementation Pool) 🆕
 - `[x]` - Completed
 
 ### Workflow Path
@@ -138,7 +154,17 @@ Implementation Pool (DEVs work in parallel slots)
     ↓
 Validation Queue (CR+QA validate)
     ↓
-Done (Deployed)
+Manual Acceptance Queue (Human tests feature) 🆕
+    ↓
+    ├─ PASS → Done (Deployed)
+    │
+    └─ FAIL → Feedback Loop
+              ↓
+         Back to Implementation Pool [Rejected]
+              ↓
+         Fix issues → Re-validate → Re-test
+              ↓
+         (After 3 failures → Escalate to TL)
 ```
 
 ### Parallelization Rules

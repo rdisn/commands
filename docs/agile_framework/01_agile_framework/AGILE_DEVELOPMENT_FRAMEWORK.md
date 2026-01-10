@@ -162,8 +162,26 @@ docs/09_retrospectives/
 
 **Output:** `docs/04_testing/test_reports/TEST-XXX_report.md`
 
-### Phase 6: QA Approved → Production
-**Input:** Tested and approved feature
+### Phase 6: QA Approved → Manual Acceptance (NEW) 🆕
+**Input:** Automated testing passed feature
+**Process:**
+1. **Human tester** performs manual exploratory testing
+2. Verify real-world usage scenarios
+3. Test edge cases and UI/UX
+4. Complete User Acceptance Report (UAR-XXX)
+5. **Decision:**
+   - **ACCEPTED** → Move to Phase 7 (Production)
+   - **REJECTED** → Return to Phase 3 with [Rejected] status
+   - **ACCEPTED WITH CONDITIONS** → Create bugs for next sprint, proceed
+
+**Output:** `docs/04_testing/user_acceptance_reports/UAR-XXX_report.md`
+
+**Feedback Loop:**
+- If rejected: Developer fixes issues → Re-validate → Re-test
+- After 3 failed attempts: Escalate to Tech Lead for plan revision
+
+### Phase 7: Manual Acceptance → Production
+**Input:** Manually tested and approved feature
 **Process:**
 1. Tech Lead creates deployment plan
 2. Deploy to production

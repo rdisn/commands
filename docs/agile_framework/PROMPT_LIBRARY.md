@@ -101,27 +101,35 @@ Your goal is to create an **Implementation Plan** for an existing User Story OR 
    - Read `docs/agile_framework/05_user_stories/[US-ID]_[Name].md`.
    - Read `docs/06_standards/SITE_STANDARDS.md`.
    - Read `docs/agile_framework/06_standards/COMMON_PITFALLS.md` (Learn from past mistakes).
+   - **🆕 Read `docs/agile_framework/PATTERN_LIBRARY.md` - Check for reusable patterns first!**
    - Read `docs/agile_framework/KANBAN.md`.
 
-2. **Verification (Mental Sandbox):**
+2. **🆕 Pattern Reuse (Before Creating):**
+   - Search PATTERN_LIBRARY.md for similar features or components
+   - Copy proven patterns instead of creating from scratch
+   - Reference patterns in your implementation plan
+   - "Don't reinvent the wheel" - reuse what works
+
+3. **Verification (Mental Sandbox):**
    - Check if the requested feature requires database changes.
    - Check if existing Controllers/Views can be reused.
    - *Self-Correction:* If you are unsure about the DB schema, ask the user to run a `DESCRIBE` command or use a tool to check it first (if available).
 
-3. **Draft Artifact:**
+4. **Draft Artifact:**
    - Create `docs/02_implementation_plans/IMPL-[ID]_[SnakeCaseName].md`.
    - **CRITICAL:** Follow the template EXACTLY.
    - Provide **exact code snippets** for every step.
+   - **🆕 Reference patterns from PATTERN_LIBRARY.md** when applicable
    - Fill the "Context Files" section for the Developer agent.
 
-4. **Update State:**
+5. **Update State:**
    - **Find your item:** Look for `[Active:YOUR_ID] **US-XXX**`.
    - **Move & Unlock:** Move it to **Planning & Spec**. Change status to `[ ]` (Unchecked).
-   - **Add Plan:** Add `- [ ] **IMPL-[ID]**: [Name]` to **Plan Review** section.
+   - **Add Plan:** Add `- [ ] **IMPL-[ID]**: [Name]` to **Triage Queue** section.
 
-5. **Report:**
+6. **Report:**
    - Confirm plan creation.
-   - Request review from LLM-CR.
+   - Request triage from LLM-CR.
 ```
 
 ---
@@ -352,12 +360,14 @@ Your goal is to **validate implemented code** combining Code Review and QA testi
    - Read `docs/agile_framework/05_user_stories/[US-ID]_[Name].md`.
    - Read `docs/06_standards/SITE_STANDARDS.md`.
    - Read `docs/agile_framework/06_standards/COMMON_PITFALLS.md`.
+   - Read `docs/agile_framework/PATTERN_LIBRARY.md` (🆕 Check for reusable patterns).
    - Read `docs/agile_framework/00_templates/VALIDATION_REPORT_TEMPLATE.md`.
 
 2. **Part A: Code Review (15-20 minutes):**
    - **Common Pitfalls Check:** Verify no repeated errors (no save(), correct Auth namespace, etc.)
    - **Standards Compliance:** CSS variables, XSS prevention, QueryBuilder usage, CSRF tokens
    - **Implementation vs Plan:** Code matches approved plan exactly, no deviations
+   - **🆕 Pattern Recognition:** Note any excellent patterns that should be added to PATTERN_LIBRARY.md
 
 3. **Part B: Functional Testing (10-15 minutes):**
    - **Acceptance Criteria:** Verify each criterion from User Story is met
@@ -368,7 +378,12 @@ Your goal is to **validate implemented code** combining Code Review and QA testi
    - If both Code Review AND Testing pass: APPROVED for Done
    - If either fails: NEEDS FIXES, list issues, return to Implementation
 
-5. **Update State:**
+5. **🆕 Automatic Learning Capture:**
+   - **If APPROVED:** Extract success patterns and update PATTERN_LIBRARY.md
+   - **If ISSUES FOUND:** Extract new error patterns and update COMMON_PITFALLS.md
+   - This happens AUTOMATICALLY as part of validation - no separate step needed
+
+6. **Update State:**
    - **Find your item:** Look for `[Active:YOUR_ID]` in Validation Queue.
    - If APPROVED:
      - Move to **Done**.
@@ -378,8 +393,9 @@ Your goal is to **validate implemented code** combining Code Review and QA testi
      - **Unlock & Flag:** Change status to `[Rejected]`.
      - Log root cause in `COMMON_PITFALLS.md` if new error type.
 
-6. **Report:**
+7. **Report:**
    - Create `docs/agile_framework/04_testing/validation_reports/VAL-[ID]_[Name].md`.
+   - **🆕 Update learning files:** Add patterns to PATTERN_LIBRARY.md, add issues to COMMON_PITFALLS.md
    - State decision and next steps.
 ```
 
